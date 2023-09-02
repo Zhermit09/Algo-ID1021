@@ -8,7 +8,7 @@ public class StaticStack extends Stack {
 
     @Override
     public void push(int val) {
-        if (isFull()) {
+        if (this.isFull()) {
             throw new StackOverflowError("Stack if FULL");
         }
         sp++;
@@ -17,7 +17,7 @@ public class StaticStack extends Stack {
 
     @Override
     public int pop() {
-        if (isEmpty()) {
+        if (this.isEmpty()) {
             throw new EmptyStackException();
         }
         return buffer[sp--];

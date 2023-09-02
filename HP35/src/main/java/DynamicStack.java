@@ -8,8 +8,8 @@ public class DynamicStack extends Stack {
 
     @Override
     public void push(int val) {
-        if (isFull()) {
-            extend();
+        if (this.isFull()) {
+            this.extend();
         }
         sp++;
         buffer[sp] = val;
@@ -17,11 +17,11 @@ public class DynamicStack extends Stack {
 
     @Override
     public int pop() {
-        if (isEmpty()) {
+        if (this.isEmpty()) {
             throw new EmptyStackException();
         }
         if((int)(0.3 * buffer.length - 0.5) >= sp && buffer.length > 1){
-            shrink();
+            this.shrink();
         }
         return buffer[sp--];
     }

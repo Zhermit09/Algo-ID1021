@@ -6,7 +6,7 @@ public abstract class Stack {
         if (size < 1) {
             throw new IllegalArgumentException("Invalid stack SIZE");
         }
-        buffer = new int[size];
+        this.buffer = new int[size];
     }
 
     public boolean isEmpty() {

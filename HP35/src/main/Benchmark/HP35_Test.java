@@ -5,7 +5,9 @@ class HP35_Test {
     static ArrayList<Long> pushData = new ArrayList<>();
     static ArrayList<Long> popData = new ArrayList<>();
 
-    static int fknSum = 0;
+    static long dummySum = 0;
+    static long t0, t1;
+    static int it = 0;
 
     public static void main(String[] args) {
 
@@ -20,12 +22,13 @@ class HP35_Test {
         System.out.println("-------Dynamic-Stack-------\n");
         run(s2);
         System.out.println("");
+        System.out.println(dummySum);
 
 
     }
 
     static void run(Stack s) {
-        int runs = 1000;
+        int runs = 1_000_000;
 
         while (runs > 0) {
             bench(s);
@@ -34,7 +37,7 @@ class HP35_Test {
 
         pushData.clear();
         popData.clear();
-        runs = 100000000;
+        runs = 10_000_000;
 
         while (runs > 0) {
             bench(s);
@@ -52,12 +55,11 @@ class HP35_Test {
     }
 
     static void bench(Stack stack) {
-        long t0, t1;
-        int it = 0;
 
+        //System.gc();
         t0 = System.nanoTime();
         for (int i = 0; i < 1000; i++) {
-            stack.push(it++);
+            stack.push(it);
         }
         t1 = System.nanoTime();
         pushData.add(t1 - t0);
@@ -65,10 +67,12 @@ class HP35_Test {
 
         t0 = System.nanoTime();
         for (int i = 0; i < 1000; i++) {
-            fknSum += stack.pop();
+            dummySum += stack.pop();
         }
         t1 = System.nanoTime();
         popData.add(t1 - t0);
+
+        it++;
     }
 
 
@@ -85,7 +89,7 @@ class HP35_Test {
                 "\n\tFastest:\t" + list.get(0) +
                 "\n\tSlowest:\t" + list.get(list.size() - 1) +
                 "\n\tAverage:\t" + avg +
-                "\n\tMedian :\t" + list.get((int) (list.size() / 2.0 + 0.5)) +
+                "\n\tMedian :\t" + list.get((int)(list.size() / 2.0 + 0.5)) +
                 "\n");
     }
 }
