@@ -21,7 +21,7 @@ public class DynamicStack extends Stack {
             throw new EmptyStackException();
         }
         if((int)(0.3 * buffer.length - 0.5) >= sp && buffer.length > 1){
-            this.shrink();
+           this.shrink();
         }
         return buffer[sp--];
     }

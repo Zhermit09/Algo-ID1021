@@ -28,7 +28,7 @@ class HP35_Test {
     }
 
     static void run(Stack s) {
-        int runs = 10_000;
+        int runs = 1_000_000;
 
         while (runs > 0) {
             bench(s);
