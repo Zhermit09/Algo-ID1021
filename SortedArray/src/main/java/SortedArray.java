@@ -4,7 +4,7 @@ class SortedArray {
         System.out.println("Yeet");
     }
 
-    public static boolean search_unsorted(int[] array, int key) {
+    public static boolean searchUnsorted(int[] array, int key) {
         for (int i : array) {
             if (i == key) {
                 return true;

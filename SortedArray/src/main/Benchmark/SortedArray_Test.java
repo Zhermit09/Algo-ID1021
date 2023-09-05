@@ -1,77 +1,45 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Stack;
-
+import java.util.*;
 
 
 class SortedArray_Test {
 
-    static long dummySum = 0;
-    static long t0, t1;
-    static int it = 0;
+
+    static final int samples = 10_000;
+    static int[][] data = new int[16][];
+    static int[][] keys = new int[16][];
+    static ArrayList<Long>[] results = new ArrayList[16];
+
     public static void main(String[] arg) {
 
-        int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10_000, 100_000, 500_000, 1_000_000};
+        prep();
+        run();
 
-        System.out.println("#\t\tN\t\tTime");
-        for (int n : sizes) {
-
-            int loop = 10000;
-
-            int[] array = sorted(n);
-            int[] indx = keys(loop, n);
-
-            System.out.printf("%8d", n);
-
-            int k = 1000;
-
-            double min = Double.POSITIVE_INFINITY;
-
-            for (int i = 0; i < k; i++) {
-                long t0 = System.nanoTime();
-                linear(array, indx);
-                long t1 = System.nanoTime();
-                double t = (t1 - t0);
-                if (t < min)
-                    min = t;
-            }
-
-            System.out.printf("%8.0f", (min / loop));
-
-            min = Double.POSITIVE_INFINITY;
-
-            for (int i = 0; i < k; i++) {
-                long t0 = System.nanoTime();
-                binary(array, indx);
-                long t1 = System.nanoTime();
-                double t = (t1 - t0);
-                if (t < min)
-                    min = t;
-            }
-
-            System.out.printf("%8.0f\n", (min / loop));
-        }
     }
 
-    private static void linear(int[] array, int[] indx) {
-        for (int i = 0; i < indx.length; i++) {
-
-            //Linear.search(array, indx[i]);
-        }
-    }
-
-
-    private static void binary(int[] array, int[] indx) {
-        for (int i = 0; i < indx.length; i++) {
-            //Binary.search(array, indx[i]);
-        }
-    }
-
-
-    private static int[] sorted(int n) {
+    static void prep() {
+        int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600};
+        //{100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10_000, 10, 10, 10};
         Random rnd = new Random();
+        int nxt = rnd.nextInt(sizes[0]);
+
+        for (int i = 0; i < sizes.length; i++) {
+            data[i] = CreateUnsorted(sizes[i]);
+            keys[i] = new int[samples];
+            for (int j = 0; j < samples; j++) {
+                keys[i][j] = data[i][nxt];
+                nxt = rnd.nextInt(sizes[i]);
+            }
+        }
+
+        for (int i = 0; i < results.length; i++) {
+            results[i] = new ArrayList<Long>(samples);
+        }
+    }
+
+    static int[] CreateSorted(int n) {
         int[] array = new int[n];
+
+        Random rnd = new Random();
         int nxt = rnd.nextInt(10);
 
         for (int i = 0; i < n; i++) {
@@ -79,82 +47,85 @@ class SortedArray_Test {
             nxt += rnd.nextInt(10) + 1;
         }
         return array;
+
     }
 
+    static int[] CreateUnsorted(int n) {
+        int[] array = new int[n];
+        ArrayList<Integer> list = new ArrayList<>();
 
-    private static int[] keys(int loop, int n) {
-        Random rnd = new Random();
-        int[] indx = new int[loop];
-        for (int i = 0; i < loop; i++) {
-            indx[i] = rnd.nextInt(n * 5);
+        for (int i : CreateSorted(n)) {
+            list.add(i);
         }
-        return indx;
+
+        Collections.shuffle(list);
+
+        for (int i = 0; i < list.size(); i++) {
+            array[i] = list.get(i);
+        }
+        return array;
+
     }
 
-    static void run(Stack s) {
-        int runs = 10_000;
+    static void run() {
+
+        for (int i = 0; i < keys.length; i++) {
+
+        }
+
+        for (ArrayList<Long> result : results) {
+            result.clear();
+        }
+
+        for (int i = 0; i < keys.length; i++) {
+            bench(keys[i], i);
+        }
+        data();
+    }
+
+    static void bench(int[] array, int i) {
+        long t0, t1;
+        int runs = 1_000;
+
 
         while (runs > 0) {
-            bench(s);
+
+            t0 = System.nanoTime();
+            for (int j = 0; j < array.length; j++) {
+                SortedArray.searchUnsorted(data[i], array[i]);
+            }
+            t1 = System.nanoTime();
+
+            results[i].add(t1 - t0);
             runs--;
         }
-
-        //pushData.clear();
-        //popData.clear();
-        runs = 10_000_000;
-
-        while (runs > 0) {
-            bench(s);
-            runs--;
-        }
-
-        System.out.println("\t*****Push-Data*****");
-        //data(pushData);
-
-        System.out.println("\t*****Pop-Data******");
-        //data(popData);
-
-        //pushData.clear();
-        //popData.clear();
-    }
-
-    static void bench(Stack stack) {
-
-        //System.gc();
-        t0 = System.nanoTime();
-        for (int i = 0; i < 1000; i++) {
-            //stack.push(it);
-        }
-        t1 = System.nanoTime();
-        //pushData.add(t1 - t0);
-
-
-        t0 = System.nanoTime();
-        for (int i = 0; i < 1000; i++) {
-            //dummySum += stack.pop();
-        }
-        t1 = System.nanoTime();
-        //popData.add(t1 - t0);
-
-        it++;
     }
 
 
-    static void data(ArrayList<Long> list) {
+    static void data() {
+        long sum = 0;
         double avg = 0;
-        Collections.sort(list);
+        int i = 0;
 
-        for (Long item : list) {
-            avg += item;
+        System.out.printf("#%10s%15s%15s%20s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (ArrayList<Long> list : results) {
+            Collections.sort(list);
+
+            for (Long item : list) {
+                sum += item;
+            }
+            avg = (sum / (double) list.size());
+
+            System.out.printf("#%10d%15.3f%15.3f%15.3f%15.3f\n",//#%10d%15.3f%15.3f%15.3f%15.3f
+                    data[i].length,
+                    list.get(0) / (double) samples,
+                    list.get(list.size() - 1) / (double) samples,
+                    avg / (double) samples,
+                    list.get((int) (list.size() / 2.0 + 0.5)) / (double) samples);
+            i++;
+            sum = 0;
         }
-        avg /= list.size();
-
-        System.out.println("\tSamples:\t" + list.size() +
-                "\n\tFastest:\t" + list.get(0) +
-                "\n\tSlowest:\t" + list.get(list.size() - 1) +
-                "\n\tAverage:\t" + avg +
-                "\n\tMedian :\t" + list.get((int)(list.size() / 2.0 + 0.5)) +
-                "\n");
+        System.out.println("");
     }
 
 }
