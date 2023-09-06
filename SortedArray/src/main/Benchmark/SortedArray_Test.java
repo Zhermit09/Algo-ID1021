@@ -3,36 +3,37 @@ import java.util.*;
 
 class SortedArray_Test {
 
-
     static final int samples = 10_000;
-    static int[][] data = new int[16][];
-    static int[][] keys = new int[16][];
-    static ArrayList<Long>[] results = new ArrayList[16];
+    static int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10_000};//, 20_000, 50_000, 100_000};
+    static int[][] data1 = new int[sizes.length][];
+    static int[][] data2 = new int[sizes.length][];
+    static int[][] keys = new int[sizes.length][];
+    static ArrayList<Long>[] linResults = new ArrayList[sizes.length];
+    static ArrayList<Long>[] binResults = new ArrayList[sizes.length];
+
 
     public static void main(String[] arg) {
 
         prep();
         run();
-
     }
 
     static void prep() {
-        int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600};
-        //{100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10_000, 10, 10, 10};
+
         Random rnd = new Random();
-        int nxt = rnd.nextInt(sizes[0]);
 
         for (int i = 0; i < sizes.length; i++) {
-            data[i] = CreateUnsorted(sizes[i]);
+            data1[i] = CreateSorted(sizes[i]);
+            data2[i] = CreateSorted(sizes[i]);
             keys[i] = new int[samples];
             for (int j = 0; j < samples; j++) {
-                keys[i][j] = data[i][nxt];
-                nxt = rnd.nextInt(sizes[i]);
+                keys[i][j] = rnd.nextInt(sizes[i] * 5);
             }
         }
 
-        for (int i = 0; i < results.length; i++) {
-            results[i] = new ArrayList<Long>(samples);
+        for (int i = 0; i < linResults.length; i++) {
+            linResults[i] = new ArrayList<Long>(samples);
+            binResults[i] = new ArrayList<Long>(samples);
         }
     }
 
@@ -67,65 +68,128 @@ class SortedArray_Test {
 
     }
 
-    static void run() {
-
-        for (int i = 0; i < keys.length; i++) {
-
-        }
-
-        for (ArrayList<Long> result : results) {
+    static void clear() {
+        for (ArrayList<Long> result : linResults) {
             result.clear();
         }
-
-        for (int i = 0; i < keys.length; i++) {
-            bench(keys[i], i);
+        for (ArrayList<Long> result : binResults) {
+            result.clear();
         }
-        data();
     }
 
-    static void bench(int[] array, int i) {
+    static void run() {
+
+
+        for (int i = 0; i < sizes.length; i++) {
+            //bench(keys[i], i,Inst.Lin);
+            //bench(keys[i], i,Inst.Bin);
+            bench(keys[i], i,Inst.LinDupe);
+            bench(keys[i], i,Inst.BinDupe);
+        }
+
+        clear();
+
+        /*
+        System.out.println("Linear");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
+            bench(keys[i], i,Inst.Lin);
+            data(linResults[i], i);
+        }*/
+
+        /*System.out.println("\nBinary");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
+            bench(keys[i], i,Inst.Bin);
+            data(binResults[i], i);
+        }*/
+
+
+        System.out.println("\nLinear Dupe");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
+            bench(keys[i], i, Inst.LinDupe);
+            data(linResults[i], i);
+        }
+
+
+        System.out.println("\nBinary Dupe");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
+            bench(keys[i], i, Inst.BinDupe);
+            data(binResults[i], i);
+        }
+    }
+
+    static void bench(int[] array, int i, Inst sw) {
         long t0, t1;
         int runs = 1_000;
 
-
         while (runs > 0) {
 
-            t0 = System.nanoTime();
-            for (int j = 0; j < array.length; j++) {
-                SortedArray.searchUnsorted(data[i], array[i]);
-            }
-            t1 = System.nanoTime();
+            switch (sw) {
+                case Lin:
+                    t0 = System.nanoTime();
+                    for (int k : array) {
+                        SortedArray.searchUnsorted(data1[i], k);
+                    }
+                    t1 = System.nanoTime();
 
-            results[i].add(t1 - t0);
+                    linResults[i].add(t1 - t0);
+                case Bin:
+                    t0 = System.nanoTime();
+                    for (int k : array) {
+                        SortedArray.binarySearch(data1[i], k);
+                    }
+                    t1 = System.nanoTime();
+
+                    binResults[i].add(t1 - t0);
+                case LinDupe:
+                    t0 = System.nanoTime();
+                    for (int item : data1[i]) {
+                       SortedArray.searchUnsorted(data2[i], item);
+                    }
+                    t1 = System.nanoTime();
+
+                    linResults[i].add(t1 - t0);
+                case BinDupe:
+                    t0 = System.nanoTime();
+                    for (int item : data1[i]) {
+                       SortedArray.binarySearch(data2[i], item);
+                    }
+                    t1 = System.nanoTime();
+
+                    binResults[i].add(t1 - t0);
+            }
             runs--;
         }
     }
 
 
-    static void data() {
+    static void data(ArrayList<Long> list, int i) {
         long sum = 0;
         double avg = 0;
-        int i = 0;
 
-        System.out.printf("#%10s%15s%15s%20s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
-        for (ArrayList<Long> list : results) {
-            Collections.sort(list);
+        Collections.sort(list);
 
-            for (Long item : list) {
-                sum += item;
-            }
-            avg = (sum / (double) list.size());
-
-            System.out.printf("#%10d%15.3f%15.3f%15.3f%15.3f\n",//#%10d%15.3f%15.3f%15.3f%15.3f
-                    data[i].length,
-                    list.get(0) / (double) samples,
-                    list.get(list.size() - 1) / (double) samples,
-                    avg / (double) samples,
-                    list.get((int) (list.size() / 2.0 + 0.5)) / (double) samples);
-            i++;
-            sum = 0;
+        for (Long item : list) {
+            sum += item;
         }
-        System.out.println("");
+        avg = (sum / (double) list.size());
+
+        System.out.printf("#%10d%15.3f%15.3f%15.3f%15.3f\n",
+                sizes[i],
+                list.get(0) / (double) samples,
+                list.get(list.size() - 1) / (double) samples,
+                avg / (double) samples,
+                list.get((int) (list.size() / 2.0 + 0.5)) / (double) samples);
     }
 
+    enum Inst {
+        Lin,
+        Bin,
+        LinDupe,
+        BinDupe
+
+    }
 }
