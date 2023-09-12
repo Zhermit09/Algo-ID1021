@@ -7,6 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/HP35/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/SortedArray/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/SortedArray/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sort/src/main/Benchmark" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Sort/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
