@@ -61,7 +61,6 @@ class Sort {
     private static void merge1(int[] A, int[] B, int start, int end, int mid) {
 
         System.arraycopy(A, start, B, start, end - start + 1);
-
         merge(A, B, start, end, mid);
 
     }
