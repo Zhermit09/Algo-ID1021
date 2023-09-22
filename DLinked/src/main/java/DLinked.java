@@ -1,9 +1,9 @@
-class Linked {
+class DLinked {
 
     public static void main(String[] args) {
 
         DLinkedList list = new DLinkedList(10);
-        DLinkedList.Node n = list.first;
+        DLinkedList.Node n = list.first.next.next.next.next.next.next.next.next.next;
         list.print();
         list.rprint();
         System.out.println(list.length());

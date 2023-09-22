@@ -11,6 +11,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Sort/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Linked/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Linked/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DLinked/src/main/Benchmark" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/DLinked/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

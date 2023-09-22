@@ -13,7 +13,7 @@ class HP35_Test {
 
 
         StaticStack s1 = new StaticStack(1024);
-        DynamicStack s2 = new DynamicStack(4);
+        ListDynamicStack s2 = new ListDynamicStack(4);
 
         System.out.println("-------Static-Stack-------\n");
         run(s1);
@@ -54,7 +54,55 @@ class HP35_Test {
         popData.clear();
     }
 
+    static void run(ListStack s) {
+        int runs = 1_000_000;
+
+        while (runs > 0) {
+            bench(s);
+            runs--;
+        }
+
+        pushData.clear();
+        popData.clear();
+        runs = 10_000_000;
+
+        while (runs > 0) {
+            bench(s);
+            runs--;
+        }
+
+        System.out.println("\t*****Push-Data*****");
+        data(pushData);
+
+        System.out.println("\t*****Pop-Data******");
+        data(popData);
+
+        pushData.clear();
+        popData.clear();
+    }
+
     static void bench(Stack stack) {
+
+        //System.gc();
+        t0 = System.nanoTime();
+        for (int i = 0; i < 1000; i++) {
+            stack.push(it);
+        }
+        t1 = System.nanoTime();
+        pushData.add(t1 - t0);
+
+
+        t0 = System.nanoTime();
+        for (int i = 0; i < 1000; i++) {
+            dummySum += stack.pop();
+        }
+        t1 = System.nanoTime();
+        popData.add(t1 - t0);
+
+        it++;
+    }
+
+    static void bench(ListStack stack) {
 
         //System.gc();
         t0 = System.nanoTime();

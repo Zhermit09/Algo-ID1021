@@ -1,7 +1,7 @@
-public class LinkedList {
+public class DLinkedList {
     Node first;
 
-    LinkedList(int n) {
+    DLinkedList(int n) {
         for (int i = 0; i < n; i++) {
             add(n - i);
         }
@@ -11,24 +11,27 @@ public class LinkedList {
 
         int val;
         Node next;
+        Node prev;
 
-        Node(int val, Node next) {
+        public Node(int val, Node next, Node prev) {
             this.val = val;
             this.next = next;
+            this.prev = prev;
         }
 
 
     }
-
-    public int getVal() {
-        return first.val;
-    }
-
     public static Node cr(int val){
-        return new Node(val, null);
+        return new Node(val, null, null);
     }
+
     public void add(int val) {
-        first = new Node(val, first);
+        if (first == null) {
+            first = new Node(val, null, null);
+            return;
+        }
+        first = new Node(val, first, null);
+        first.next.prev = first;
     }
 
     public void add(Node n) {
@@ -36,8 +39,10 @@ public class LinkedList {
             first = n;
             return;
         }
-        n.next = first;
-        first = n;
+        first.prev = n;
+        first.prev.next = first;
+        first = first.prev;
+
     }
 
     public int length() {
@@ -70,19 +75,6 @@ public class LinkedList {
         while (curr != null) {
             if (curr.val == val) {
                 unlink(curr, prev);
-            }
-            prev = curr;
-            curr = curr.next;
-        }
-    }
-
-    public void remove(Node n) {
-        Node curr = first;
-        Node prev = null;
-
-        while (curr != null) {
-            if (curr == n) {
-                unlink(curr, prev);
                 return;
             }
             prev = curr;
@@ -90,17 +82,30 @@ public class LinkedList {
         }
     }
 
-    private void unlink(Node curr, Node prev) {
+    public void remove(Node curr) {
+        if (curr == null) {
+            return;
+        }
+        unlink(curr, curr.prev);
+
+    }
+
+    void unlink(Node curr, Node prev) {
         if (prev == null) {
             first = first.next;
+            first.prev = null;
         } else if (curr.next == null) {
+            curr.prev = null;
             prev.next = null;
+
         } else {
             prev.next = curr.next;
+            curr.next.prev = prev;
+
         }
     }
 
-    public void append(LinkedList list) {
+    public void append(DLinkedList list) {
         if (first == null) {
             first = list.first;
             //list.first = null;
@@ -129,5 +134,24 @@ public class LinkedList {
             curr = curr.next;
         }
         System.out.print("\n");
+    }
+
+    public void rprint() {
+        Node curr = first;
+
+        if (curr != null) {
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+
+            System.out.print(curr.val);
+            curr = curr.prev;
+
+            while (curr != null) {
+                System.out.print(", " + curr.val);
+                curr = curr.prev;
+            }
+            System.out.print("\n");
+        }
     }
 }

@@ -45,14 +45,17 @@ class Linked_Test {
         long t0, t1;
         int runs = run;
 
-        LinkedList temp;
+        int[] temp;
 
 
         while (runs > 0) {
 
             t0 = System.nanoTime();
             for (int i = 0; i < samples; i++) {
-               temp = new LinkedList(n);
+                temp = new int[n];
+                for (int k = 0; k < n; k++) {
+                    temp[k] = k;
+                }
             }
             t1 = System.nanoTime();
             results[run - runs] = t1 - t0;
