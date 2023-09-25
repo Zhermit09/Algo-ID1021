@@ -91,7 +91,10 @@ public class DLinkedList {
     }
 
     void unlink(Node curr, Node prev) {
-        if (prev == null) {
+        if(prev == null && curr.next == null){
+            first = null;
+        }
+        else if (prev == null) {
             first = first.next;
             first.prev = null;
         } else if (curr.next == null) {
@@ -103,23 +106,6 @@ public class DLinkedList {
             curr.next.prev = prev;
 
         }
-    }
-
-    public void append(DLinkedList list) {
-        if (first == null) {
-            first = list.first;
-            //list.first = null;
-            return;
-        }
-
-        Node curr = first;
-
-        while (curr.next != null) {
-            curr = curr.next;
-        }
-        curr.next = list.first;
-        //list.first = null;
-
     }
 
     public void print() {

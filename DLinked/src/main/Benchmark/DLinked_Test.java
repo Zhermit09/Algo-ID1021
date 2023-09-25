@@ -5,8 +5,8 @@ import java.util.Random;
 class DLinked_Test {
 
     static final int samples = 1_000;
-    static int run = 10_000;
-    static int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+    static int run = 1_000;
+    static int[] sizes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     static int[][] random = new int[run][];
     static LinkedList.Node[][] ref = new LinkedList.Node[sizes.length][];
