@@ -1,4 +1,4 @@
-class Tree {
+class Queues {
 
     public static void main(String[] args) {
 
@@ -12,15 +12,17 @@ class Tree {
         tree.add(3, 3);
         tree.add(4, 4);
 
-        DFSIterator it = new DFSIterator(tree);
+        BFSIterator it = new BFSIterator(tree);
 
-        for (int i : tree) {
-            System.out.println("next value " + i);
-            it.next();
+        for (int i = 0; i < 10; i++) {
+            System.out.println("next value " + it.next() + "\t\thas next:" + it.hasNext());
         }
         System.out.println(it.next());
-
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println();
     }
 
-
 }
+
+

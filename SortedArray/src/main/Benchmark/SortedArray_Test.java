@@ -85,31 +85,31 @@ class SortedArray_Test {
 
 
         for (int i = 0; i < sizes.length; i++) {
-            //bench(keys[i], i,Inst.Lin);
-            //bench(keys[i], i,Inst.Bin);
-            bench(keys[i], i, Inst.LinDupe);
-            bench(keys[i], i, Inst.BinDupe);
-            bench(keys[i], i, Inst.AdvanceDupe);
+            bench(keys[i], i,Inst.Lin);
+            bench(keys[i], i,Inst.Bin);
+            //bench(keys[i], i, Inst.LinDupe);
+            //bench(keys[i], i, Inst.BinDupe);
+            //bench(keys[i], i, Inst.AdvanceDupe);
         }
 
         clear();
 
-        /*
+
         System.out.println("Linear");
         System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
         for (int i = 0; i < sizes.length; i++) {
-            bench(keys[i], i,Inst.Lin);
-            data(linResults[i], i, samples);
-        }*/
+            bench(keys[i], i, Inst.Lin);
+            data(linResults[i], i, 1);
+        }
 
-        /*System.out.println("\nBinary");
+        System.out.println("\nBinary");
         System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
         for (int i = 0; i < sizes.length; i++) {
-            bench(keys[i], i,Inst.Bin);
-            data(binResults[i], i,samples);
-        }*/
+            bench(keys[i], i, Inst.Bin);
+            data(binResults[i], i, 1);
+        }
 
-
+        /*
         System.out.println("\nLinear Dupe");
         System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
         for (int i = 0; i < sizes.length; i++) {
@@ -130,7 +130,7 @@ class SortedArray_Test {
         for (int i = 0; i < sizes.length; i++) {
             bench(keys[i], i, Inst.AdvanceDupe);
             data(advanceResults[i], i, 1);
-        }
+        }*/
     }
 
     static void bench(int[] array, int i, Inst sw) {

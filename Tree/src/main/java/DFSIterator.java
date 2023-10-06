@@ -1,11 +1,11 @@
 import java.util.Iterator;
 import java.util.Stack;
 
-public class TreeIterator implements Iterator<Integer> {
+public class DFSIterator implements Iterator<Integer> {
     private BinaryTree.Node it;
     private Stack<BinaryTree.Node> stack;
 
-    public TreeIterator(BinaryTree tree) {
+    public DFSIterator(BinaryTree tree) {
         it = tree.root;
         stack = new Stack<>();
     }

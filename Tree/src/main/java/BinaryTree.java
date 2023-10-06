@@ -62,7 +62,7 @@ public class BinaryTree implements Iterable<Integer> {
 
     @Override
     public Iterator<Integer> iterator() {
-        return new TreeIterator(this);
+        return new BFSIterator(this);
     }
 
     public class Node {
@@ -75,7 +75,7 @@ public class BinaryTree implements Iterable<Integer> {
             this.left = this.right = null;
         }
 
-        public void print(TreeIterator it) {
+        public void print(DFSIterator it) {
             if (left != null)
                 left.print(it);
             System.out.printf("#%5s%12d%10s%12d%13s%12d%10s%10s\n", "key:", key, "value:", val, "it-value:", it.next(), "next?:", it.hasNext());
