@@ -29,6 +29,10 @@ public class QueueList<T> {
 
     }
 
+    public boolean empty(){
+        return last == null;
+    }
+
     public T remove() {
 
         if (first == null) {

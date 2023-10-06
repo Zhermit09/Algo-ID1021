@@ -17,9 +17,6 @@ class Queues {
         for (int i = 0; i < 10; i++) {
             System.out.println("next value " + it.next() + "\t\thas next:" + it.hasNext());
         }
-        System.out.println(it.next());
-        System.out.println(it.next());
-        System.out.println(it.next());
         System.out.println();
     }
 
