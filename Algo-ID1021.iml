@@ -17,6 +17,8 @@
       <sourceFolder url="file://$MODULE_DIR$/Tree/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Queues/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Queues/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/QuickSort/src/main/Benchmark" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/QuickSort/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
