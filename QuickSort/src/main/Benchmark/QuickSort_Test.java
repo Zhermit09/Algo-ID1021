@@ -4,19 +4,17 @@ import java.util.Random;
 
 class QuickSort_Test {
 
-    static int run = 25_000;
-    static int[] sizes = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+    static int run = 10_000;
+    static int[] sizes = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
     static int[][][] data1 = new int[sizes.length][run][];
-    static int[][][] data2 = new int[sizes.length][run][];
-    //static QSortList[][] data3 = new QSortList[sizes.length][run];
+    //static int[][][] data2 = new int[sizes.length][run][];
+    static QSortList[][] data3 = new QSortList[sizes.length][run];
     static long[][] results1 = new long[sizes.length][run];
-    static long[][] results2 = new long[sizes.length][run];
-    //static long[][] results3 = new long[sizes.length][run];
+    //static long[][] results2 = new long[sizes.length][run];
+    static long[][] results3 = new long[sizes.length][run];
     static int[] dummy = new int[run];
 
     public static void main(String[] args) {
-
-        prep();
         run();
 
     }
@@ -61,31 +59,28 @@ class QuickSort_Test {
 
     }
 
-    static void prep() {
+    static void prep(int i) {
         Random rnd = new Random();
         int nxt;
 
-        for (int i = 0; i < sizes.length; i++) {
-
             for (int j = 0; j < run; j++) {
                 data1[i][j] = new int[sizes[i]];
-                data2[i][j] = new int[sizes[i]];
-                //data3[i][j] = new QSortList();
+                //data2[i][j] = new int[sizes[i]];
+                data3[i][j] = new QSortList();
 
                 for (int k = 0; k < sizes[i]; k++) {
                     nxt = rnd.nextInt();
                     data1[i][j][k] = nxt;
-                    data2[i][j][k] = nxt;
+                    //data2[i][j][k] = nxt;
 
                 }
 
                 for (int k = sizes[i] - 1; k >= 0; k--) {
-                //    data3[i][j].add(new QSortList.Node(data1[i][j][k]));
+                    data3[i][j].add(new QSortList.Node(data1[i][j][k]));
 
                 }
 
             }
-        }
     }
 
     static void run() {
@@ -100,20 +95,14 @@ class QuickSort_Test {
 
             runs = run;
             while (runs > 0) {
-                bench(CreateUnsorted(sizes[i]), CreateUnsorted(sizes[i]), new QSortList(), Enum.JAVA);
-                runs--;
-            }
-
-            runs = run;
-            while (runs > 0) {
                 bench(CreateUnsorted(sizes[i]), CreateUnsorted(sizes[i]), new QSortList(), Enum.LINKED);
                 runs--;
             }
         }
 
-        System.out.println("Array Quick Sort");
-        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
         for (int i = 0; i < sizes.length; i++) {
+
+            prep(i);
 
             int runs = run;
             while (runs > 0) {
@@ -121,36 +110,30 @@ class QuickSort_Test {
                 results1[i][runs] = bench(data1[i][runs], dummy, new QSortList(), Enum.ARRAY);
             }
 
-            System.out.printf("#%10d", sizes[i]);
-            data(results1[i]);
-        }
-
-        System.out.println("\n\nJava Quick Sort");
-        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
-        for (int i = 0; i < sizes.length; i++) {
-            int runs = run;
-            while (runs > 0) {
-                runs--;
-                results2[i][runs] = bench(dummy, data2[i][runs], new QSortList(), Enum.JAVA);
-            }
-
-            System.out.printf("#%10d", sizes[i]);
-            data(results2[i]);
-        }
-
-        /*
-        System.out.println("\n\nLinked List Quick Sort");
-        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
-        for (int i = 0; i < sizes.length; i++) {
-            int runs = run;
+            runs = run;
             while (runs > 0) {
                 runs--;
                 results3[i][runs] = bench(dummy, dummy, data3[i][runs], Enum.LINKED);
             }
 
+            data1[i] = null;
+            data3[i] = null;
+
+        }
+
+        System.out.println("Array Quick Sort");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
+            System.out.printf("#%10d", sizes[i]);
+            data(results1[i]);
+        }
+
+        System.out.println("\n\nLinked List Quick Sort");
+        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
+        for (int i = 0; i < sizes.length; i++) {
             System.out.printf("#%10d", sizes[i]);
             data(results3[i]);
-        }*/
+        }
 
     }
 
