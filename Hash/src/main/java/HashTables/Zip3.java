@@ -6,12 +6,12 @@ import java.nio.file.Paths;
 
 public class Zip3 {
 
-    Node[] data;
+    public Node[] data;
     int length;
 
     public class Node {
 
-        String code;
+        public String code;
         String region;
         Integer pop;
 

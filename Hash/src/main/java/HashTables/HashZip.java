@@ -23,7 +23,7 @@ public class HashZip {
 
     public HashZip(String fileName) {
 
-        hush = new HashTable2(43_611);
+        hush = new HashTable2(20_000);
 
         try (BufferedReader br = new BufferedReader(new FileReader(Paths.get(this.getClass().getClassLoader().getResource(fileName).toURI()).toFile()))) {
             String line;
@@ -39,7 +39,7 @@ public class HashZip {
 
     }
 
-    public Node find(String code) {
+    public int find(String code) {
         return hush.find(Integer.parseInt(code.replaceAll("\\s", "")));
     }
 }

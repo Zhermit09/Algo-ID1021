@@ -36,21 +36,24 @@ public class HashTable {
         arr[i].add(item);
     }
 
-    public HashZip.Node find(int idx) {
+    public int find(int idx) {
         Bucket bucket = arr[idx % mod];
         if (bucket == null) {
-            return null;
+            return 0;
         }
+
 
         if (bucket.buff.length == 1 && bucket.buff[0].code == idx) {
-            return bucket.buff[0];
+            return 1;
         }
 
+        int i = 0;
         for (HashZip.Node item : bucket.buff) {
+            i++;
             if (item.code == idx) {
-                return item;
+                return i;
             }
         }
-        return null;
+        return i;
     }
 }

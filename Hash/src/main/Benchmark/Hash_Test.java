@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 class Hash_Test {
 
-    static int run = 1_000;
-    static int samples = 1_000;
-    static long[] results = new long[run];
-    static long[] results2 = new long[run];
+    static int run = 1;
+    static int samples = 1;
+    static long[] results = new long[9675];
     static int length = 1;
     static HashZip reader = new HashZip("postnummer.csv");
+    static Zip3 zip = new Zip3("postnummer.csv");
 
     public static void main(String[] args) {
 
@@ -18,73 +18,68 @@ class Hash_Test {
 
 
 
-
-    static PrioList[] prep(int size) {
-        PrioList[] copy = new PrioList[samples];
-
-        for (int i = 0; i < samples; i++) {
-            copy[i] = new PrioList();
-            for (int k = 0; k < size; k++) {
-               // copy[i].add(data[k]);
-            }
-        }
-        return copy;
-    }
-
-
     static void run() {
 
         for (int i = 0; i < length; i++) {
             int runs = run;
 
-            while (runs > 0) {
+            /*while (runs > 0) {
                 runs--;
-                bench("111 15");
-                bench("984 99");
                 if(runs % 100 == 0){
                     System.out.println("Warm Up Run: " + (run - runs));
                 }
+            }*/
+
+            for (Zip3.Node n: zip.data) {
+                if (n == null) {
+                    continue;
+                }
+                bench(n.code);
             }
+
         }
         System.out.println("\nWarm Up Done\n");
         for (int i = 0; i < length; i++) {
             int runs = run;
 
-            while (runs > 0) {
+           /* while (runs > 0) {
                 runs--;
-                results[runs] = bench("111 15");
-                results2[runs] = bench("984 99");
+                 = bench("111 15");
                 if(runs % 100 == 0){
                     System.out.println("Bench Run: " + (run - runs));
                 }
+            }*/
+
+            int j = 0;
+            for (Zip3.Node n: zip.data) {
+                if (n == null) {
+                    continue;
+                }
+                results[j] = bench(n.code);
+                j++;
             }
         }
 
-        System.out.println("\nHash Table 2.0 of \"111 15\"");
+        System.out.println("\nHash Table 2.0 Depth");
         System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
         for (int i = 0; i < length; i++) {
             System.out.printf("#%10d", 0);
             data(results);
         }
 
-        System.out.println("\nHash Table 2.0 of \"984 99\"");
-        System.out.printf("#%10s%15s%15s%15s%15s\n", "N", "Fastest", "Slowest", "Average", "Median");
-        for (int i = 0; i < length; i++) {
-            System.out.printf("#%10d", 0);
-            data(results2);
-        }
-
     }
 
-    static long bench(String key) {
+    static int bench(String key) {
         long t0, t1;
 
-        t0 = System.nanoTime();
+        /*t0 = System.nanoTime();
         for (int i = 0; i < samples; i++) {
             reader.find(key);
         }
         t1 = System.nanoTime();
         return t1 - t0;
+        */
+        return reader.find(key);
 
     }
 

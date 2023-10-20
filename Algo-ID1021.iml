@@ -24,6 +24,9 @@
       <sourceFolder url="file://$MODULE_DIR$/Hash/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Hash/src/main/Resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/Hash/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/T9/src/main/Benchmark" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/T9/src/main/Resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/T9/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

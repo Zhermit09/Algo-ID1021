@@ -5,7 +5,7 @@ public class HashTable2 {
     HashZip.Node[] arr;
 
     public HashTable2(int mod) {
-        arr = new HashZip.Node[2 * mod];
+        arr = new HashZip.Node[mod];
         this.mod = mod;
     }
 
@@ -23,22 +23,24 @@ public class HashTable2 {
         arr[i] = item;
     }
 
-    public HashZip.Node find(int idx) {
+    public int find(int idx) {
 
         if (arr[idx % mod] == null) {
-            return null;
+            return 0;
         }
 
+        int count = 0;
         for (int i = idx % mod; i < arr.length; i++) {
+            count++;
             HashZip.Node item = arr[i];
             if (item == null){
-                return null;
+                return count;
             }
 
             if (item.code == idx) {
-                return item;
+                return count;
             }
         }
-        return null;
+        return count;
     }
 }
