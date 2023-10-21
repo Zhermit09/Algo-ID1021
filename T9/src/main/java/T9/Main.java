@@ -24,7 +24,7 @@ class Main {
         }
 
 
-        T9 t = new T9();
+        T9 t = new T9(true);
         ArrayList<String> list2 = t.getWords("496");
         ArrayList<String> seq = new ArrayList<>();
 
@@ -43,7 +43,6 @@ class Main {
             for (int j = 0; j < list.size(); j++) {
                 if (list2.get(j).equals(list.get(i))) {
                     found = true;
-                    if (list2.size() > 6) System.out.println(seq.get(i));
                     break;
                 }
             }
@@ -54,6 +53,12 @@ class Main {
             }
             //System.out.println("Good...");
         }
+
+        list2 = t.getWords("2314");
+        for (String s: list2){
+            System.out.println(s);
+        }
+
 
         System.out.println("DONE!!!");
         System.out.println();

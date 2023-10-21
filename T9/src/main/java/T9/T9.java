@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class T9 {
     Node root;
+    boolean prediction;
 
     private class Node {
         public Node[] next;
@@ -18,8 +19,9 @@ public class T9 {
         }
     }
 
-    public T9() {
+    public T9(boolean prediction) {
         root = new Node();
+        this.prediction = prediction;
         loadWords();
     }
 
@@ -67,11 +69,18 @@ public class T9 {
     private void getWord(String str, Node node, ArrayList<String> list, String seq) {
 
         if (node.valid && seq.isEmpty()) {
+            if (prediction) {
+                getWord(str, node, list);
+                return;
+            }
             list.add(str);
             return;
         }
 
         if(seq.isEmpty()){
+            if (prediction) {
+                getWord(str, node, list);
+            }
             return;
         }
 
@@ -87,6 +96,24 @@ public class T9 {
 
         }
 
+    }
+
+    private void getWord(String str, Node node, ArrayList<String> list) {
+        if (node.valid) {
+            list.add(str);
+            return;
+        }
+
+        Node[] next = node.next;
+
+        for (int i = 0; i < next.length; i++) {
+            Node n = next[i];
+            if (n == null) {
+                continue;
+            }
+            getWord(str + codeToChar(i), n, list);
+
+        }
     }
 
 
