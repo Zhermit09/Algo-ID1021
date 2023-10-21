@@ -8,25 +8,12 @@ import java.util.ArrayList;
 class Main {
     public static void main(String[] args) {
 
-        String fileName = "kelly.txt";
         ArrayList<String> list = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(Paths.get(Main.class.getClassLoader().getResource(fileName).toURI()).toFile()))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                list.add(line);
-            }
-            //System.out.println(" Successfully loaded " + fileName);
-        } catch (Exception e) {
-            System.out.println(" file " + fileName + " not found");
-            System.out.println(e);
-        }
-
-
-        T9 t = new T9(true);
-        ArrayList<String> list2 = t.getWords("496");
+        ArrayList<String> list2 =  new ArrayList<>();
         ArrayList<String> seq = new ArrayList<>();
+
+        T9 t = new T9();
+        load(list);
 
         for (String s : list) {
             String sequence = "";
@@ -35,6 +22,8 @@ class Main {
             }
             seq.add(sequence);
         }
+
+
 
         for (int i = 0; i < list.size(); i++) {
             boolean found = false;
@@ -49,39 +38,35 @@ class Main {
 
             if (!found) {
                 System.out.println("Missing: '" + list.get(i) + "'");
-                break;
+                //break;
             }
             //System.out.println("Good...");
         }
+        System.out.println("DONE!!!");
 
-        list2 = t.getWords("2314");
+
+        list2 = t.getWords("752224");
         for (String s: list2){
-            System.out.println(s);
+           System.out.println(s);
         }
 
-
-        System.out.println("DONE!!!");
         System.out.println();
 
+    }
 
+    static void load(ArrayList<String> list){
+        String fileName = "kelly.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(Paths.get(Main.class.getClassLoader().getResource(fileName).toURI()).toFile()))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+            //System.out.println(" Successfully loaded " + fileName);
+        } catch (Exception e) {
+            System.out.println(" file " + fileName + " not found");
+            System.out.println(e);
+        }
     }
 }
-
-
-/*char[] arr = "abcdefghijklmnoprstuvxyzåäö".toCharArray();
-
-        for (int i = 0; i < arr.length; i++) {
-            int code = t.charToCode(arr[i]);
-
-            if ((i) % 3 == 0) {
-                System.out.print("(" + (1+(i + 1) / 3) + ")");
-            }
-            System.out.print(t.codeToChar(i));
-            if ((i + 1) % 3 == 0) {
-                System.out.print("\t");
-            }
-            if ((i + 1) % 9 == 0) {
-                System.out.println();
-            }
-        }
-*/
