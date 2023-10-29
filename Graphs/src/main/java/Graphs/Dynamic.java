@@ -3,7 +3,7 @@ package Graphs;
 public class Dynamic {
 
     static Map map = new Map();
-    static City[] paths = new City[52];
+    static City[] paths = new City[133];
     static int sp = 0;
     static Integer max = null;
     static String[] cities = {"Mora", "Sveg", "Falköping", "Boden", "Gällivare", "Sundsvall", "Uppsala", "Sala", "Storvik", "Östersund", "Emmaboda", "Uddevalla", "Helsingborg",
@@ -12,12 +12,12 @@ public class Dynamic {
             "Varberg", "Malmö", "Linköping", "Trollhättan", "Avesta", "Frövi", "Karlskrona", "Ludvika", "Halmstad"};
 
 
-
     public static void main(String[] args) {
 
         for (int i = 0; i < 52; i++) {
             bench("Malmö", cities[i]);
         }
+
 
     }
 
@@ -43,7 +43,9 @@ public class Dynamic {
         }
 
         if (from == to) {
-            max = time;
+            if (max == null || max > time) {
+                max = time;
+            }
             return 0;
         }
 

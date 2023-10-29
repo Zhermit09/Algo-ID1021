@@ -30,9 +30,9 @@
       <sourceFolder url="file://$MODULE_DIR$/Graphs/src/main/Benchmark" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Graphs/src/main/Resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/Graphs/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Dikstra/src/main/Benchmark" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/Dikstra/src/main/Resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/Dikstra/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Dijkstra/src/main/Benchmark" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Dijkstra/src/main/Resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/Dijkstra/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

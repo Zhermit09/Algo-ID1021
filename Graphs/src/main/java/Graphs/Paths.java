@@ -2,7 +2,7 @@ package Graphs;
 public class Paths {
 
     static Map map = new Map();
-    static City[] paths = new City[54];
+    static City[] paths = new City[52];
     static int sp = 0;
 
     public static void main(String[] args) {

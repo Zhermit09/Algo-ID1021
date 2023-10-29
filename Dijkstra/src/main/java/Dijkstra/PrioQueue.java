@@ -12,6 +12,7 @@ public class PrioQueue {
 
         public void add(Path path) {
             arr[ptr] = path;
+            arr[ptr].idx = ptr;
             update(ptr);
             ptr++;
         }
@@ -33,7 +34,8 @@ public class PrioQueue {
                 arr[curr] = arr[i];
                 arr[i] = temp;
 
-
+                arr[curr].idx = curr;
+                arr[i].idx = i;
                 curr = i;
             }
 
@@ -46,7 +48,9 @@ public class PrioQueue {
 
             Path val = arr[0];
             ptr--;
+
             arr[0] = arr[ptr];
+            arr[0].idx = 0;
             arr[ptr] = null;
 
             int i = 0;
@@ -60,12 +64,17 @@ public class PrioQueue {
                         arr[left] = arr[i];
                         arr[i] = temp;
 
+                        arr[left].idx = left;
+                        arr[i].idx = i;
+
                         i = i * 2 + 1;
                     } else {
                         Path temp = arr[right];
                         arr[right] = arr[i];
                         arr[i] = temp;
 
+                        arr[right].idx = right;
+                        arr[i].idx = i;
                         i = i * 2 + 2;
                     }
                 } else {
@@ -74,6 +83,7 @@ public class PrioQueue {
                 left = i * 2 + 1;
                 right = i * 2 + 2;
             }
+            val.idx = null;
             return val;
         }
 

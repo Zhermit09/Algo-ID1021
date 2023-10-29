@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 class Main {
@@ -20,27 +21,28 @@ class Main {
             "Kalmar", "Stockholm", "Vasa", "Kristianstad", "Leipzig", "Varberg", "Nürnberg", "Tammerfors", "Malmö", "Leeds", "Brindisi", "Linköping", "Trollhättan", "Innsbruck", "Basel",
             "Avesta", "Świnoujście", "Frövi", "Oslo", "Karlskrona", "Bukarest", "Ludvika", "Halmstad", "Bologna", "Lille"};
 
-    static String[] to = {"Graz","Edinburgh","Świnoujście","Barcelona","Zaragoza","Metz","Liege","London", "Nice", "Prag", "Arboga","Florens"};
+
+    static String[] to = {"Graz", "Edinburgh", "Świnoujście", "Barcelona", "Zaragoza", "Metz", "Liege", "London", "Nice", "Prag", "Arboga", "Florens"};
+
     public static void main(String[] args) {
+        Random random = new Random();
 
-        Random rnd = new Random();
-
-        for (int i = 0; i < 12; i++) {
-
-            int nxt = rnd.nextInt(133);
-
-            bench(cities[nxt], to[i]);
+        for (int i = 1; i <= 12; i++) {
+           // bench(cities[random.nextInt(133)], to[i]);
+            System.out.print("( , )");
         }
+
 
 
     }
 
-    private static void bench(String from, String to) {
+    private static Integer bench(String from, String to) {
 
         long t0 = System.nanoTime();
         Path path = dijkstra(from, to);
         double time = (System.nanoTime() - t0) / 1_000_000.0;
 
+        Integer t = path.time;
         int count = 0;
         for (int i = 0; i < explored.length; i++) {
             if (explored[i] != null) {
@@ -48,27 +50,33 @@ class Main {
             }
         }
 
-        System.out.println(from + " to " + to + " : " + path.time + " min (" + time + " ms)" + " V [" + count + "]");
-       /* while (path.prev != null) {
+        if (path != null)
+            System.out.println("Malmö to " + to + " : " + path.time + " min");
+        else System.out.println(from + " to " + to + " : " + null + " min");
+        while (path.prev != null) {
             System.out.print(path.city.name + " -> ");
             path = explored[path.prev.id];
         }
         System.out.println(path.city.name);
         System.out.println("__________________________________________________________________________________________________________________________________________________________________________________________________________________________________\n");
-    */}
+        return t;
+    }
+
 
 
     public static Path dijkstra(String from, String to) {
         explored = new Path[133];
-        queue = new PrioQueue(10);
+        queue = new PrioQueue(8);
 
         queue.add(new Path(map.get(from), null, 0));
-        return relax(map.get(to));
+        return shortestRoute(map.get(to));
     }
 
-    static Path relax(City to) {
+
+    static Path shortestRoute(City to) {
         while (queue.arr[0] != null) {
             Path path = queue.remove();
+
 
             if (path.city == to) {
                 return path;
@@ -79,16 +87,33 @@ class Main {
 
             for (Link link : path.city.links) {
 
-                if (explored[link.city.id] != null && explored[link.city.id].city == link.city) {
-                    continue;
+                if (link.city.name.equals("Hallsberg")) {
+                    //System.out.println();
                 }
 
-                queue.add(new Path(link.city, path.city, path.time + link.weight));
+                if (explored[link.city.id] != null) {
+                    Integer i = explored[link.city.id].idx;
+                    if (i != null && queue.arr[i].time > path.time + link.weight) {
+
+                        if (queue.arr[i].city.name.equals(path.city.name)) {
+                            System.out.print("");
+                        }
+
+                        queue.arr[i].prev = path.city;
+                        queue.arr[i].time = path.time + link.weight;
+                        queue.update(i);
+                    }
+                    continue;
+                }
+                Path temp = new Path(link.city, path.city, path.time + link.weight);
+                explored[link.city.id] = temp;
+                queue.add(temp);
             }
 
         }
         return null;
     }
+
 
     static void load(ArrayList<String[]> list) {
         String fileName = "europe.csv";
@@ -108,14 +133,3 @@ class Main {
         }
     }
 }
-
-/*int count = 0;
-        for (HashTable.Bucket bucket : map.cities.arr) {
-            if (bucket == null) {
-                continue;
-            }
-            for (City city : bucket.buff) {
-                System.out.println(city.name);
-                count++;
-            }
-        }*/

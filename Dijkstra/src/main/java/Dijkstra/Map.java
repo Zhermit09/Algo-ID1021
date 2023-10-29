@@ -17,7 +17,7 @@ public class Map {
     }
 
     private void load() {
-        String fileName = "europe.csv";
+        String fileName = "trains.csv";
 
         try (BufferedReader br = new BufferedReader(new FileReader(Paths.get(this.getClass().getClassLoader().getResource(fileName).toURI()).toFile()))) {
             String line;
